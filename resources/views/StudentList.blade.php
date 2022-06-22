@@ -15,25 +15,29 @@
 
     <div class="container-fluid">
         <table class="talbe table-bordered  " >
-            <tr class="thead">
-                <td>Id </td>
-                <td>Name</td>
-                <td>Birth</td>
-                <td>Description</td>
-                <td>NameDes</td>
-                <td>Update</td>
-                <td>Delete</td>
-            </tr>
+            <thead>
+              <tr class="thead">
+                  <td>Id </td>
+                  <td>Name</td>
+                  <td>Birth</td>
+                  <td>Description</td>
+                  <td>NameDes</td>
+                  <td>Update</td>
+                  <td>Delete</td>
+              </tr>
+          </thead>
             @foreach ( $students as $student )
-            <tr class="tbody">
-                <td>{{$student->id}}</td>
-                <td>{{$student->name}}</td>
-                <td>{{$student->birthday}}</td>
-                <td>{{$student->description}}</td>
-                <td>{{$student->NameDes()}}</td>
-                <td><button class="btn btn-primary edit" type="button" data-bs-toggle="modal" data-bs-target="#UpdateForm" >Update</button></td>
-                <td><button class="btn btn-primary delete" >Delete</button></td>
-           </tr>
+            <tbody>
+               <tr class="tbody">
+                   <td>{{$student->id}}</td>
+                   <td>{{$student->name}}</td>
+                   <td>{{$student->birthday}}</td>
+                   <td>{{$student->description}}</td>
+                   <td>{{$student->NameDes()}}</td>
+                   <td><button class="btn btn-primary edit" type="button" data-bs-toggle="modal" data-bs-target="#UpdateForm" >Update</button></td>
+                   <td><button class="btn btn-primary delete" >Delete</button></td>
+              </tr>
+            </tbody>
             @endforeach
          </table>
 
@@ -127,7 +131,13 @@
                     window.location.reload()
                 },
                 error: function (response) {
-                    alert('sua that bai')
+                    errors=response.responseJSON.errors;
+                    messageError=""
+                    for(error in errors){
+                      messageError += errors[error][0] +'\n';
+                    }
+
+                    alert(messageError)
                 }
               });
 

@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Students;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +25,12 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
+
             'name'=>[
                 'bail',
                 'required',
                 'string',
-                'unique:student,name'
+                Rule::unique('student')->ignore($this->id)
             ],
             'description'=>[
                   'required',
@@ -38,7 +40,7 @@ class StoreRequest extends FormRequest
              ]
         ];
     }
-        public function messages()
+    public function messages()
     {
         return [
             'required'=>'Please Write :attribute ',
@@ -46,10 +48,10 @@ class StoreRequest extends FormRequest
         ];
     }
 
-    public function attributes()
-    {
-        return [
-            'name' => 'Ten',
-        ];
-    }
+     public function attributes()
+     {
+         return [
+             'name' => 'Ten',
+         ];
+     }
 }

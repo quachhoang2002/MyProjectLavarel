@@ -32,4 +32,3 @@ Route::group(['prefix'=>'students','as'=>'student.'], function () {
 
 
 
-

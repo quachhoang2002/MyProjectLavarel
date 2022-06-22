@@ -15,7 +15,7 @@
         <div class="modal-body">
             <form action="{{ route('student.store') }}" method="POST"  id="CreateStudent">
                 @csrf
-                Ten <input type="text" name="name" class="form-control" >
+                Ten <input type="text" name="name" class="form-control" value="{{old('name')}}" >
                 Birth <input type="date" name="birthday" class="form-control">
                 Description <input type="text" name="description" class="form-control"/>
              </form>
