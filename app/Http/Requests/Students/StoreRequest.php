@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests\Students;
 
+use App\Enums\StudentStatusE;
+use App\Models\course;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Whoops\Run;
 
 class StoreRequest extends FormRequest
 {
@@ -28,14 +32,29 @@ class StoreRequest extends FormRequest
                 'bail',
                 'required',
                 'string',
-                'unique:student,name'
+                'unique:students,name'
             ],
             'description'=>[
                   'required',
             ],
              'birthday' =>[
-                    'required'
+                    'required',
+                    'date',
+             ],
+             'status'=>[
+                'required',
+                 'integer',
+                 Rule::in(StudentStatusE::arrayStatus()),
+             ],
+             'course_id' =>[
+                'required',
+                 Rule::exists(course::class,'id'),
+             ],
+             'gender' =>[
+                'required',
+                'boolean',
              ]
+
         ];
     }
         public function messages()

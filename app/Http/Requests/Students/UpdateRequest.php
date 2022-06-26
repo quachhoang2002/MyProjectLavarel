@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Requests\Students;
-
+use App\Models\course;
+use App\Enums\StudentStatusE;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -30,13 +31,31 @@ class UpdateRequest extends FormRequest
                 'bail',
                 'required',
                 'string',
-                Rule::unique('student')->ignore($this->id)
+                Rule::unique('students')->ignore($this->id)
             ],
             'description'=>[
                   'required',
             ],
              'birthday' =>[
                     'required'
+             ],
+             'avatar' =>[
+                'nullable',
+                'file',
+                'image',
+             ],
+             'status'=>[
+                'required',
+                 'integer',
+                  Rule::in(StudentStatusE::arrayStatus()),
+             ],
+             'course_id' =>[
+                'required',
+                 Rule::exists(course::class,'id'),
+             ],
+             'gender' =>[
+                'required',
+                'boolean',
              ]
         ];
     }

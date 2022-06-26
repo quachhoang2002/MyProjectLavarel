@@ -7,12 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    protected $table="student";
     use HasFactory;
-    protected $fillable=['name','birthday','description'];
+    protected $table='students';
+    protected $fillable=['name','birthday','description','status','course_id','gender','avatar'];
     public function NameDes(){
         return $this->name. $this->description;
     }
-
 
 }

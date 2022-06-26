@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Stu;
 use App\Http\Controllers\StudentC;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Middleware\checklogin;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,14 +22,20 @@ use Illuminate\Http\Response;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::group(['prefix'=>'students','as'=>'student.'], function () {
-    Route::get('',[StudentC::class,'index'])->name('index');
-    Route::post('/store',[StudentC::class,'store'])->name('store');
-    Route::get('/edit',[StudentC::class,'edit'])->name('edit');
-    Route::patch('/update',[StudentC::class,'update'])->name('update');
-    Route::delete('/delete',[StudentC::class,'delete'])->name('delete');
-});
 
+Route::middleware(['checklogin'])->group(function () {
+    Route::group(['prefix'=>'students','as'=>'student.'], function () {
+        Route::get('',[StudentC::class,'index'])->name('index');
+        Route::post('/store',[StudentC::class,'store'])->name('store');
+        Route::get('/edit',[StudentC::class,'edit'])->name('edit');
+        Route::patch('/update',[StudentC::class,'update'])->name('update');
+        Route::delete('/delete',[StudentC::class,'delete'])->name('delete');
+    });
+});
+Route::controller(UserController::class)->group(function(){
+    Route::get('/register','create')->name('register');
+    Route::post('/registerStore','store')->name('user.store');
+});
 
 
 

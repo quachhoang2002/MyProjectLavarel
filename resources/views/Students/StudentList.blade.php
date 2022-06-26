@@ -22,6 +22,7 @@
                   <td>Birth</td>
                   <td>Description</td>
                   <td>NameDes</td>
+                  <td>Image</td>
                   <td>Update</td>
                   <td>Delete</td>
               </tr>
@@ -34,6 +35,7 @@
                    <td>{{$student->birthday}}</td>
                    <td>{{$student->description}}</td>
                    <td>{{$student->NameDes()}}</td>
+                   <td><img src="{{asset('storage/'.$student->avatar.'')}}" height="50px" alt="" srcset=""></td>
                    <td><button class="btn btn-primary edit" type="button" data-bs-toggle="modal" data-bs-target="#UpdateForm" >Update</button></td>
                    <td><button class="btn btn-primary delete" >Delete</button></td>
               </tr>
@@ -51,8 +53,8 @@
 
 
 
-      @include('StudentEdit')
-      @include('StudentCreate')
+      @include('Students.StudentEdit')
+      @include('Students.StudentCreate')
 
 
    <script type="text/javascript">
@@ -85,10 +87,17 @@
                 data: {id:$id},
                 dataType: "json",
                 success: function (response) {
+                    console.log(response);
                     $('#name').val(response.students.name)
                     $('#birthday').val(response.students.birthday)
                     $('#description').val(response.students.description)
                     $('#id').val(response.students.id)
+                    $('#course_id').val(response.students.course_id)
+                    $('#status').val(response.students.status)
+                    $('input[name=gender][value='+response.students.gender+']').attr('checked', 'checked')
+
+
+
                 }
 
             });
@@ -101,7 +110,10 @@
               $.ajax({
                 type: "POST",
                 url: actionUrl,
-                data: form.serialize(),
+                data: new FormData(this),
+                contentType: false,
+                processData: false,
+                cache: false,
                 success: function (response) {
                     alert('them thannh cong')
                     window.location.reload()
@@ -118,14 +130,24 @@
               });
            })
 
+           $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+          });
+
            $('#UpdateStudent').submit(function (e) {
               e.preventDefault();
-              var form = $(this);
+              var form = $(this)
               var actionUrl = form.attr('action');
               $.ajax({
-                type: "PATCH",
+                type: "POST",
                 url: actionUrl,
-                data: form.serialize(),
+                data: new FormData(this),
+                contentType: false,
+                processData: false,
+                cache: false,
+
                 success: function (response) {
                     alert('sua thanh cong')
                     window.location.reload()
