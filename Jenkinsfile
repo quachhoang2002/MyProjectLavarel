@@ -2,9 +2,20 @@ pipeline {
   agent any
   stages {
     stage('test ') {
-      steps {
-        sh 'ls -la '
-        sh 'echo "chao may cung "'
+      parallel {
+        stage('test ') {
+          steps {
+            sh 'ls -la '
+            sh 'echo "chao may cung "'
+          }
+        }
+
+        stage('phpunit ') {
+          steps {
+            sh 'php artisan '
+          }
+        }
+
       }
     }
 
